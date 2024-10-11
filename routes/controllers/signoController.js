@@ -1,8 +1,6 @@
 const fs = require('fs/promises');
 const path = require('path');
-const User = require('../models/user.model'); // Importa el modelo
-const User = require('../models/user.model'); // Importa el modelo
-const User = require('../models/user.model'); // Importa el modelo
+const User = require('../user.model'); // Importa el modelo
 
 const getAllSignos = async (req, res)=>{
     const signo = await fs.readFile(path.join(__dirname,'../../db/signos.json'));
