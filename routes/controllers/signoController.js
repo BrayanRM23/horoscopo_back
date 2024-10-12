@@ -1,7 +1,7 @@
 const fs = require('fs/promises');
 const path = require('path');
 const User = require('../user.model'); // Importa el modelo
-const Signo = require('../signo.mode'); // Asegúrate de que la ruta sea correcta
+const Signo = require('../signo.model'); // Asegúrate de que la ruta sea correcta
 
 const getAllSignos = async (req, res)=>{
     const signo = await fs.readFile(path.join(__dirname,'../../db/signos.json'));
