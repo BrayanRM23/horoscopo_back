@@ -61,28 +61,33 @@ const updatepassword = async (req, res) => {
     const { username, password, update } = req.body;
 
     try {
-        // Verificar si el usuario existe y la contraseña actual es correcta
-        const user = await User.findOne({ username, password });
+        // Buscar al usuario en MongoDB
+        const user = await User.findOne({ username });
 
-        if (user) {
-            // Actualizar la contraseña
-            user.password = update;
-            await user.save();
-
-            console.log(`Contraseña del usuario '${username}' actualizada correctamente.`);
-            return res.json({ resultado: "Contraseña actualizada correctamente" });
-        } else {
-            console.log(`Intento fallido: Credenciales inválidas para el usuario '${username}'.`);
-            return res.json({ resultado: "Credenciales inválidas" });
+        if (!user) {
+            console.log(`Usuario '${username}' no encontrado.`);
+            return res.status(404).json({ resultado: "Usuario no encontrado" });
         }
-    } catch (error) {
-        // Log del error en Vercel
-        console.log(`Error al actualizar contraseña para el usuario '${username}':`, error.message);
-        console.log("Stack trace:", error.stack);
 
+        // Verificar la contraseña actual
+        if (user.password !== password) {
+            console.log(`Contraseña incorrecta para el usuario '${username}'.`);
+            return res.status(400).json({ resultado: "Credenciales inválidas" });
+        }
+
+        // Actualizar la contraseña
+        user.password = update;
+        await user.save();
+
+        console.log(`Contraseña del usuario '${username}' actualizada correctamente.`);
+        return res.json({ resultado: "Contraseña actualizada correctamente" });
+
+    } catch (error) {
+        console.log("Error al actualizar la contraseña:", error.message);
         return res.status(500).json({ resultado: "Error interno del servidor" });
     }
 };
+
 
 
 
