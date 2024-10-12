@@ -16,9 +16,7 @@ const getOneSigno = async (req, res)=>{
     const result = objSignos[oneSigno];
     res.json(result)
 }
-
-const Signo = require('../models/Signo'); // Asegúrate de que la ruta sea correcta
-
+//weno
 const updateSigno = async (req, res) => {
     const { signo, genero, textoEditar } = req.body;
 
@@ -36,7 +34,7 @@ const updateSigno = async (req, res) => {
 
         return res.json({ resultado: "Signo actualizado correctamente" });
     } catch (error) {
-        console.error("Error actualizando el signo:", error);
+        console.error("Error al actualizar el signo:", error);
         return res.status(500).json({ resultado: "Error interno del servidor" });
     }
 };
@@ -92,9 +90,6 @@ const updatepassword = async (req, res) => {
         return res.status(500).json({ resultado: "Error interno del servidor" });
     }
 };
-
-
-
 
 
 const crearuser = async (req, res) => {
