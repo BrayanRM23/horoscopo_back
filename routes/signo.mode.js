@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
 
 const signoSchema = new mongoose.Schema({
-    nombre: { type: String, required: true },
-    descripcion: { type: String, required: true }
+    signo: { type: String, required: true },
+    genero: { type: String, required: true },
+    texto: { type: String, required: true },
 });
 
 const Signo = mongoose.model('Signo', signoSchema);

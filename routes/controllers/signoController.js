@@ -1,6 +1,7 @@
 const fs = require('fs/promises');
 const path = require('path');
 const User = require('../user.model'); // Importa el modelo
+const Signo = require('../signo.mode'); // Asegúrate de que la ruta sea correcta
 
 const getAllSignos = async (req, res)=>{
     const signo = await fs.readFile(path.join(__dirname,'../../db/signos.json'));
@@ -16,25 +17,29 @@ const getOneSigno = async (req, res)=>{
     res.json(result)
 }
 
-const updateSigno = async (req, res)=>{
-    const signoEditar = req.params.signoEditar;
-    const {textoEditar} = req.body;
-    const allSignos = await fs.readFile(path.join(__dirname,'../../db/signos.json'));
-    const objSignos = JSON.parse(allSignos);
+const Signo = require('../models/Signo'); // Asegúrate de que la ruta sea correcta
 
-    const objUpdate = {
-        ...objSignos,
-        [signoEditar]: textoEditar
+const updateSigno = async (req, res) => {
+    const { signo, genero, textoEditar } = req.body;
+
+    try {
+        // Buscar el signo específico en la base de datos
+        const signoEncontrado = await Signo.findOne({ signo, genero });
+
+        if (!signoEncontrado) {
+            return res.status(404).json({ resultado: "Signo no encontrado" });
+        }
+
+        // Actualizar el texto del signo
+        signoEncontrado.texto = textoEditar;
+        await signoEncontrado.save();
+
+        return res.json({ resultado: "Signo actualizado correctamente" });
+    } catch (error) {
+        console.error("Error actualizando el signo:", error);
+        return res.status(500).json({ resultado: "Error interno del servidor" });
     }
-
-    // console.log(objUpdate);
-    await fs.writeFile(path.join(__dirname,'../../db/signos.json'), JSON.stringify(objUpdate, null, 2), {encoding: 'utf-8'})
-
-    res.json({
-        message: "Updated"
-    })
-}
-
+};
 
 const compareLogin = async (req, res) => {
     const { username, password } = req.body;
