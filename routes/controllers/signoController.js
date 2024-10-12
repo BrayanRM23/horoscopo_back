@@ -18,21 +18,22 @@ const getOneSigno = async (req, res)=>{
 }
 //weno
 const getSigno = async (req, res) => {
-    const { signo, genero } = req.query;
+    const { signo, genero } = req.body;
 
     try {
-        const signoEncontrado = await Signo.findOne({ signo, genero });
+        // Aquí asumes que tienes una función para buscar en la base de datos
+        const resultado = await Signo.findOne({ signo, genero }); // Ajusta según tu modelo
 
-        if (signoEncontrado) {
-            res.json({ texto: signoEncontrado.texto });
+        if (resultado) {
+            return res.json({ texto: resultado.texto });
         } else {
-            res.status(404).json({ mensaje: "No se encontró información para este signo y género." });
+            return res.status(404).json({ mensaje: "No se encontró información para este signo y género." });
         }
     } catch (error) {
-        console.error("Error al buscar el signo:", error);
-        res.status(500).json({ mensaje: "Error interno del servidor." });
+        console.error("Error al obtener el signo:", error);
+        return res.status(500).json({ mensaje: "Error interno del servidor." });
     }
-}
+};
 
 
 const updateSigno = async (req, res) => {
