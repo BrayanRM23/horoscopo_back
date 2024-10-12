@@ -17,27 +17,33 @@ const getOneSigno = async (req, res)=>{
     res.json(result)
 }
 //weno
+const Signo = require('../models/Signo'); // Asegúrate de que la ruta sea correcta
+
 const updateSigno = async (req, res) => {
     const { signo, genero, textoEditar } = req.body;
 
     try {
-        // Buscar el signo específico en la base de datos
-        const signoEncontrado = await Signo.findOne({ signo, genero });
+        // Buscar si el signo con el género ya existe
+        let signoEncontrado = await Signo.findOne({ signo, genero });
 
-        if (!signoEncontrado) {
-            return res.status(404).json({ resultado: "Signo no encontrado" });
+        if (signoEncontrado) {
+            // Actualizar el texto si el signo ya existe
+            signoEncontrado.texto = textoEditar;
+            await signoEncontrado.save();
+            return res.json({ resultado: "Signo actualizado correctamente" });
+        } else {
+            // Crear un nuevo signo si no existe
+            const nuevoSigno = new Signo({ signo, genero, texto: textoEditar });
+            await nuevoSigno.save();
+            return res.json({ resultado: "Signo creado correctamente" });
         }
-
-        // Actualizar el texto del signo
-        signoEncontrado.texto = textoEditar;
-        await signoEncontrado.save();
-
-        return res.json({ resultado: "Signo actualizado correctamente" });
     } catch (error) {
-        console.error("Error al actualizar el signo:", error);
+        console.error("Error actualizando/creando el signo:", error);
         return res.status(500).json({ resultado: "Error interno del servidor" });
     }
 };
+
+module.exports = { updateSigno };
 
 const compareLogin = async (req, res) => {
     const { username, password } = req.body;
