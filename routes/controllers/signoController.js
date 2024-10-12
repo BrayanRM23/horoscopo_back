@@ -69,18 +69,21 @@ const updatepassword = async (req, res) => {
             user.password = update;
             await user.save();
 
-            console.log(`Contraseña de usuario ${username} actualizada correctamente.`);
+            console.log(`Contraseña del usuario '${username}' actualizada correctamente.`);
             return res.json({ resultado: "Contraseña actualizada correctamente" });
         } else {
-            console.log(`Credenciales inválidas para el usuario ${username}.`);
+            console.log(`Intento fallido: Credenciales inválidas para el usuario '${username}'.`);
             return res.json({ resultado: "Credenciales inválidas" });
         }
     } catch (error) {
-        console.error("Error actualizando contraseña:", error.message);
-        console.error("Stack trace:", error.stack);  // Imprimir más información del error
+        // Log del error en Vercel
+        console.log(`Error al actualizar contraseña para el usuario '${username}':`, error.message);
+        console.log("Stack trace:", error.stack);
+
         return res.status(500).json({ resultado: "Error interno del servidor" });
     }
 };
+
 
 
 

@@ -14,9 +14,9 @@ app.use(cors())
 app.use('/v1/signos', router);
 
 mongoose
-.connect(process.env.MONGO_URI)  
-.then(() => console.log("Connected to MongoDB Atlas"))  
-.catch((error) => console.error(error)); 
+    .connect(process.env.MONGO_URI)  
+    .then(() => console.log("Connected to MongoDB Atlas"))  
+    .catch((error) => console.error(error)); 
 
 app.listen(4000, ()=>{
     console.log('listening at port 4000');
