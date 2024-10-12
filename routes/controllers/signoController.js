@@ -17,8 +17,6 @@ const getOneSigno = async (req, res)=>{
     res.json(result)
 }
 //weno
-const Signo = require('../models/Signo'); // Asegúrate de que la ruta sea correcta
-
 const updateSigno = async (req, res) => {
     const { signo, genero, textoEditar } = req.body;
 
@@ -39,7 +37,7 @@ const updateSigno = async (req, res) => {
         }
     } catch (error) {
         console.error("Error actualizando/creando el signo:", error);
-        return res.status(500).json({ resultado: "Error interno del servidor" });
+        return res.status(500).json({ resultado: "Error interno en el servidor" });
     }
 };
 
