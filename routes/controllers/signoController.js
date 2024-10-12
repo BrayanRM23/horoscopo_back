@@ -18,15 +18,17 @@ const getOneSigno = async (req, res)=>{
 }
 //weno
 const getSigno = async (req, res) => {
-    const { signo, genero } = req.body;
+    const { signo, genero } = req.body; // Recibe signo y género del cuerpo de la solicitud
 
     try {
-        // Aquí asumes que tienes una función para buscar en la base de datos
-        const resultado = await Signo.findOne({ signo, genero }); // Ajusta según tu modelo
+        // Busca en la base de datos el documento que coincide con el signo y el género
+        const resultado = await Signo.findOne({ signo: signo, genero: genero });
 
         if (resultado) {
+            // Si se encuentra el resultado, devuelve el texto
             return res.json({ texto: resultado.texto });
         } else {
+            // Si no se encuentra, devuelve un mensaje de error
             return res.status(404).json({ mensaje: "No se encontró información para este signo y género." });
         }
     } catch (error) {
