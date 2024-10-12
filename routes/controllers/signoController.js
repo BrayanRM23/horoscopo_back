@@ -69,15 +69,19 @@ const updatepassword = async (req, res) => {
             user.password = update;
             await user.save();
 
+            console.log(`Contraseña de usuario ${username} actualizada correctamente.`);
             return res.json({ resultado: "Contraseña actualizada correctamente" });
         } else {
+            console.log(`Credenciales inválidas para el usuario ${username}.`);
             return res.json({ resultado: "Credenciales inválidas" });
         }
     } catch (error) {
-        console.error("Error actualizando contraseña:", error);
+        console.error("Error actualizando contraseña:", error.message);
+        console.error("Stack trace:", error.stack);  // Imprimir más información del error
         return res.status(500).json({ resultado: "Error interno del servidor" });
     }
 };
+
 
 
 const crearuser = async (req, res) => {
