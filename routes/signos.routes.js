@@ -7,7 +7,7 @@ router
     .get('/:signo', signoController.getOneSigno)
     .patch('/:signoEditar', signoController.updateSigno)
     .post('/login', signoController.compareLogin)
-    .patch('/actualizar', signoController.updatepassword)
+    .post('/actualizar', signoController.updatepassword)
     .post('/crear', signoController.crearuser); // Nueva ruta para crear usuarios
 
 module.exports = router;
